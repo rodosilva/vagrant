@@ -1,0 +1,14 @@
+
+Vagrant.configure("2") do |config|
+  
+    ## Definir los boxes
+    config.vm.box = "ubuntu/trusty64"
+    config.vm.box_version = "20191107.0.0"
+    
+    ## Configuar con ip privada que quiras asignar
+    config.vm.network "private_network", ip: "192.168.56.10"
+
+    ## Compartir rutas de directorios. Disabled: si queremos desabilitar el compartir nuestra carpeta con nuestra instancia
+    #config.vm.synced_folder "./code", "/home/vagrant", disabled: false
+    
+  end

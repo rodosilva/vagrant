@@ -1,0 +1,39 @@
+
+$script = <<-SCRIPT
+
+  sudo apt-get update
+  sudo apt-get install nginx -y
+
+SCRIPT
+
+
+Vagrant.configure("2") do |config|
+  
+  ## Definir el OS de forma global
+  config.vm.box = "ubuntu/trusty64"
+  config.vm.box_version = "20191107.0.0"
+  
+  ## Definir Nuevo Bloque
+  ################################# HOST 1 ############################################# 
+  config.vm.define "host_1" do |host|
+    ## Definir Maquina virtual dentro de este Bloque
+    #host.vm.box = "ubuntu/trusty64"
+    host.vm.network "private_network", ip:"192.168.56.10"
+
+    ## Ejecutar un script desde una variable dentro del vagrantfile
+    host.vm.provision "shell", inline: $script
+  end
+
+  ################################# HOST 2 #############################################
+  config.vm.define "host_2" do |host|
+    host.vm.network "private_network", ip:"192.168.56.20"
+
+    #host.vm.synced_folder "./code", "/home/vagrant", disabled: false
+    ## Ejecutar un Script desde archivo
+    host.vm.provision "shell", path: "./script2.sh"
+
+  end
+    
+
+    
+end
