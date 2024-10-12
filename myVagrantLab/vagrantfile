@@ -1,0 +1,20 @@
+Vagrant.configure("2") do |config|
+  
+    ## Definir el OS de forma global
+    config.vm.box = "ubuntu/trusty64"
+    config.vm.box_version = "20191107.0.0"
+    
+
+    ################################# HOST 1 ############################################# 
+    config.vm.define "host_1" do |host|
+      ## Definir Maquina virtual dentro de este Bloque
+      host.vm.hostname = 'labhost'
+      host.vm.network "private_network", ip:"192.168.56.10"
+
+      host.vm.synced_folder "./git", "/home/vagrant/git", disabled: false
+      host.vm.synced_folder "./bash", "/home/vagrant/bash", disabled: false
+
+      host.vm.provision "shell", path: "./script.sh"
+
+    end
+end
